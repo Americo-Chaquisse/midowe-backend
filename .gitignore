@@ -2,7 +2,14 @@
 !jest.config.js
 *.d.ts
 node_modules
+.yarn
 
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+output.json
+
+# Ide
+.idea
+*.iml
+.vscode
