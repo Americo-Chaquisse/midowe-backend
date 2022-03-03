@@ -1745,17 +1745,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^17.0.21":
   version: 17.0.21
   resolution: "@types/node@npm:17.0.21"
   checksum: 89dcd2fe82f21d3634266f8384e9c865cf8af49685639fbdbd799bdd1040480fb1e8eeda2d3b9fce41edbe704d2a4be9f427118c4ae872e8d9bb7cbeb3c41a94
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:10.17.27":
-  version: 10.17.27
-  resolution: "@types/node@npm:10.17.27"
-  checksum: fce94f3e7002506fe05ee97845c5d5bdd857428435b1dcb1611565ebcc9dbf53ef4879f1ef353f09f36315ec819547b94675692715673057dd68fbb711c54cb5
   languageName: node
   linkType: hard
 
@@ -5608,7 +5601,7 @@ __metadata:
     "@aws-sdk/client-dynamodb": ^3.52.0
     "@types/aws-lambda": ^8.10.92
     "@types/jest": ^27.4.1
-    "@types/node": 10.17.27
+    "@types/node": ^17.0.21
     "@typescript-eslint/eslint-plugin": ^5.12.1
     "@typescript-eslint/parser": ^5.12.1
     aws-cdk: 2.13.0

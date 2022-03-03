@@ -41,3 +41,6 @@ jobs:
 
       - name: CDK Synthesis
         run: yarn synthesize
+
+      - name: CDK deploy
+          run: yarn --require-approval never
