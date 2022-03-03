@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-test-deploy:
     name: Build, test and deploy
     runs-on: ubuntu-latest
     strategy:
@@ -21,3 +21,18 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Install yarn
+        run: npm install -g yarn aws-cdk
+
+      - name: Install packages
+        run: yarn install
+
+      - name: ESLint
+        run: yarn lint
+
+      - name: Unit testing
+        run: yarn test
+
+      - name: CDK Synthesis
+        run: yarn synthesize
