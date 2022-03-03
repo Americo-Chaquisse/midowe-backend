@@ -1,4 +1,6 @@
 import { setup } from "jest-dynalite";
+import { dirname } from 'path';
 
-// You must give it a config directory
+const __dirname = dirname(__filename)
+
 setup(__dirname);
