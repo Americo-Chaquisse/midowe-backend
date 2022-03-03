@@ -24,6 +24,7 @@
     "noUnusedParameters": true
   },
   "exclude": [
+    "node_modules",
     "cdk.out"
   ]
 }
