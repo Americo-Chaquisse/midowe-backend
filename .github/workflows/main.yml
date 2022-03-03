@@ -3,12 +3,14 @@ on:
   push:
     branches:
       - main
+
 jobs:
-  lint-build-deploy:
-    runs-on: ubuntu-20.04
+  build-deploy:
+    name: Build, lint, test and deploy
+    runs-on: ubuntu-latest
 
     steps:
-      - name: GitHub Checkout
+      - name: Check out Git repository
         uses: actions/checkout@v2
 
       – name: Use NodeJS 14
@@ -17,30 +19,16 @@ jobs:
           node-version: 14
 
       – name: Install yarn
-        run: npm install -g yarn
-
-      – name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      – name: Cache yarn dependencies
-        uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: |
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
-            **/node_modules
-          key: vivid-cache-yarn-${{ hashFiles('**/package.json') }}
+        run: npm install -g yarn aws-cdk
 
       – name: Install packages
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
 
       – name: ESLint
         run: yarn lint
 
-      – name: Install CDK
-        run: yarn global add aws-cdk
+      – name: Unit testing
+        run: yarn test
 
       – name: CDK Synthesis
         run: yarn synthesize
