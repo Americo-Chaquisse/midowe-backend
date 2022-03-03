@@ -1,4 +1,5 @@
-name: CICDProd
+name: backend-ci
+
 on:
   push:
     branches:
