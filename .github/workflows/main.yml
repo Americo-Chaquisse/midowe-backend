@@ -2,10 +2,11 @@ name: CICDProd
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  lint-build-deploy:
+    runs-on: ubuntu-20.04
+
     steps:
       - name: GitHub Checkout
         uses: actions/checkout@v2
