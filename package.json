@@ -6,7 +6,7 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "synth": "cdk synth",
-    "deploy": "cdk deploy --outputs-file output.json"
+    "deploy": "cdk deploy"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.92",
