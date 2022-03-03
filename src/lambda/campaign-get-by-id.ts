@@ -17,7 +17,7 @@ export const handler = async (
   }
 
   try {
-    const campaign = getCampaignById(
+    const campaign = await getCampaignById(
       event.pathParameters.categoryId,
       event.pathParameters.campaignId
     );

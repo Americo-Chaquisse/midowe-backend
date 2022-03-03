@@ -12,7 +12,7 @@ export const handler = async (
   try {
     const requestBody = JSON.parse(event.body);
 
-    const category = createCategory(
+    const category = await createCategory(
       requestBody.id,
       requestBody.name,
       requestBody.description

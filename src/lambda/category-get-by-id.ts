@@ -13,7 +13,7 @@ export const handler = async (
   }
 
   try {
-    const category = getCategoryById(event.pathParameters.id);
+    const category = await getCategoryById(event.pathParameters.id);
     return Message.success(category);
   } catch (err) {
     return Message.error(err);

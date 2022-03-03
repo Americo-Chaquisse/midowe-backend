@@ -12,11 +12,9 @@ describe('Get category by id', () => {
     expect(category.description).toBe('Educação / Formação / Cursos');
   });
 
-  it('Should not return unexistent category', async () => {
+  it('Should not return nonexistent category', async () => {
     const result = await handler({ pathParameters: { id: 'unknown' } });
-    const message = JSON.parse(result.body);
 
     expect(result.statusCode).toBe(400);
-    expect(message.message).toBe('Not found category.id: unknown');
   });
 });

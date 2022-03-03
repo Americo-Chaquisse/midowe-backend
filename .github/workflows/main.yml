@@ -25,6 +25,9 @@ jobs:
       - name: Install yarn
         run: npm install -g yarn aws-cdk
 
+      - name: Upgrate yarn to latest version
+        run: yarn set version stable
+
       - name: Install packages
         run: yarn install
 

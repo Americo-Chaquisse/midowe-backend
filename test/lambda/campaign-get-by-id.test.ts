@@ -23,7 +23,7 @@ describe('Get campaign by id', () => {
 
     const body = JSON.parse(response.body);
     expect(body.categoryId).toBe(newCampaign.categoryId);
-    expect(body.campaignId).toBe(newCampaign.description);
+    expect(body.campaignId).toBe(newCampaign.campaignId);
 
     expect(response.statusCode).toBe(200);
   });
