@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  build-test-deploy:
-    name: Build, test and deploy
+  test-build:
+    name: Test and build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -38,6 +38,24 @@ jobs:
 
       - name: Unit testing
         run: yarn test
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install -g yarn aws-cdk
+      - run: yarn set version stable
+      - run: yarn install
+        env:
+          YARN_ENABLE_IMMUTABLE_INSTALLS: false
 
       - name: CDK Synthesis
         run: yarn synth
