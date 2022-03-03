@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "bin": "bin/midowe-backend.js",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "synth": "cdk synth",
     "deploy": "cdk deploy --outputs-file output.json"
@@ -38,7 +35,6 @@
     "constructs": "^10.0.0",
     "dynamodb-onetable": "^2.3.2",
     "esbuild": "^0.14.23",
-    "lambda-log": "^3.1.0",
     "source-map-support": "^0.5.16"
   }
 }

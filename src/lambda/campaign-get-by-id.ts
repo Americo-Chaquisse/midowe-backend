@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { Message } from '../helper/message';
-import { Campaigns } from '../repository/schema';
+import { getCampaignById } from '../service/campaign-service';
 
 export const handler = async (
   event: Partial<APIGatewayProxyEvent>
@@ -8,17 +8,19 @@ export const handler = async (
   if (event.pathParameters == undefined) {
     return Message.error('UNDEFINED_PATH_PARAMETERS');
   }
+  if (event.pathParameters.categoryId == undefined) {
+    return Message.error('UNDEFINED_PATH_PARAMETER_CATEGORY_ID');
+  }
 
-  const campaign = await Campaigns.get({
-    campaignId: event.pathParameters.campaignId,
-  });
-  if (campaign == undefined) {
-    return Message.error(
-      `Not found campaign.id: ${event.pathParameters.campaignId}`
-    );
+  if (event.pathParameters.campaignId == undefined) {
+    return Message.error('UNDEFINED_PATH_PARAMETER_CAMPAIGN_ID');
   }
 
   try {
+    const campaign = getCampaignById(
+      event.pathParameters.categoryId,
+      event.pathParameters.campaignId
+    );
     return Message.success(campaign);
   } catch (err) {
     return Message.error(err);

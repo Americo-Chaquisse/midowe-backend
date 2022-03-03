@@ -1,5 +1,3 @@
-import log from 'lambda-log';
-
 export class Message {
   static success(data: object, statusCode?: number) {
     return {
@@ -12,7 +10,7 @@ export class Message {
   }
 
   static error(message: string | object | unknown, statusCode?: number) {
-    log.warn(`${message}`);
+    console.error(message);
     return {
       statusCode: statusCode == undefined ? 400 : statusCode,
       body: JSON.stringify({ message: message }),

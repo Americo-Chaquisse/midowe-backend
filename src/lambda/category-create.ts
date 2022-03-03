@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { Message } from '../helper/message';
-import { Categories } from '../repository/schema';
+import { createCategory } from '../service/category-service';
 
 export const handler = async (
   event: Partial<APIGatewayProxyEvent>
@@ -9,15 +9,14 @@ export const handler = async (
     return Message.error('UNDEFINED_EVENT_BODY');
   }
 
-  const requestBody = JSON.parse(event.body);
-
-  const category = await Categories.create({
-    id: requestBody.id,
-    name: requestBody.name,
-    description: requestBody.description,
-  });
-
   try {
+    const requestBody = JSON.parse(event.body);
+
+    const category = createCategory(
+      requestBody.id,
+      requestBody.name,
+      requestBody.description
+    );
     return Message.success(category);
   } catch (err) {
     return Message.error(err);

@@ -1,4 +1,4 @@
-import { handler } from '../../src/lambda/category-add';
+import { handler } from '../../src/lambda/category-create';
 
 describe('Add category', () => {
   it('Should add new category', async () => {

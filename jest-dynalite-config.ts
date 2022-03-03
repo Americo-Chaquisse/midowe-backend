@@ -32,6 +32,15 @@ const dummyData = [
     name: 'Contribuição',
     _type: 'Category',
   },
+  {
+    pk: 'featured',
+    sk: 'category1:campaign1',
+    updated: 1645703956860,
+    created: 1645703956860,
+    categoryId: 'category1',
+    campaignId: 'campaign1',
+    _type: 'Featured',
+  },
 ];
 
 export default {

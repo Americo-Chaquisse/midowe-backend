@@ -1,11 +1,11 @@
 import { APIGatewayProxyResult } from 'aws-lambda';
 import { Message } from '../helper/message';
-import { getAllCategories } from '../service/category-service';
+import { getSpotlightCampaigns } from '../service/campaign-service';
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
   try {
-    const categories = await getAllCategories();
-    return Message.success(categories);
+    const campaigns = await getSpotlightCampaigns('trending');
+    return Message.success(campaigns);
   } catch (err) {
     return Message.error(err);
   }

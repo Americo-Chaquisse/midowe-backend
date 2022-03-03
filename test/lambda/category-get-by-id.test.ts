@@ -6,7 +6,7 @@ describe('Get category by id', () => {
     const category = JSON.parse(result.body);
 
     expect(result.statusCode).toBe(200);
-    expect(category).toBeTruthy;
+    expect(category).toBeTruthy();
     expect(category.id).toBe('educacao');
     expect(category.name).toBe('Educação');
     expect(category.description).toBe('Educação / Formação / Cursos');
