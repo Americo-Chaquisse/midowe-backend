@@ -6,30 +6,18 @@ on:
       - main
 
 jobs:
-  build-deploy:
-    name: Build, lint, test and deploy
+  deploy:
+    name: Build, test and deploy
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
 
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      – name: Use NodeJS 14
-        uses: actions/setup-node@v2
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          node-version: 14
-
-      – name: Install yarn
-        run: npm install -g yarn aws-cdk
-
-      – name: Install packages
-        run: yarn install
-
-      – name: ESLint
-        run: yarn lint
-
-      – name: Unit testing
-        run: yarn test
-
-      – name: CDK Synthesis
-        run: yarn synthesize
+          node-version: ${{ matrix.node-version }}
