@@ -6,9 +6,40 @@ on:
       - main
 
 jobs:
+  build:
+    name: Build, lint, test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install yarn
+        run: npm install -g yarn
+
+      - name: Upgrate yarn to latest version
+        run: yarn set version stable
+
+      - name: Install packages
+        run: yarn install
+        env:
+          YARN_ENABLE_IMMUTABLE_INSTALLS: false
+
+      - name: ESLint
+        run: yarn lint
+
+      - name: Unit testing
+        run: yarn test
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    needs: build
 
     steps:
       - uses: actions/checkout@v2
@@ -19,8 +50,6 @@ jobs:
       - run: yarn install
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false
-
-      - run: yarn add dynamodb-onetable @aws-sdk/client-dynamodb
 
       - name: CDK Synthesis
         run: yarn synth
