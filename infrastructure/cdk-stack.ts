@@ -34,23 +34,23 @@ export class MidoweBackendStack extends Stack {
     };
 
     // Campaigns
-    registerFunction('campaign-create', '/campaigns', HttpMethod.POST, 'w');
-    registerFunction('campaign-get-by-category', '/campaigns/{categoryId}');
+    registerFunction('campaign/create', '/campaigns', HttpMethod.POST, 'w');
+    registerFunction('campaign/get-by-category', '/campaigns/{categoryId}');
     registerFunction(
-      'campaign-get-by-id',
+      'campaign/get-by-id',
       '/campaigns/{categoryId}/{campaignId}'
     );
 
     // Categories
-    registerFunction('category-create', '/categories', HttpMethod.POST, 'w');
-    registerFunction('category-get-all', '/categories');
-    registerFunction('category-get-by-id', '/categories/{id}');
+    registerFunction('category/create', '/categories', HttpMethod.POST, 'w');
+    registerFunction('category/get-all', '/categories');
+    registerFunction('category/get-by-id', '/categories/{id}');
 
     // Spotlight
-    registerFunction('spotlight-create', '/spotlight', HttpMethod.POST, 'w');
-    registerFunction('spotlight-get-featured', '/spotlight/{spotType}');
+    registerFunction('spotlight/create', '/spotlight', HttpMethod.POST, 'w');
+    registerFunction('spotlight/get-by-type', '/spotlight/{spotType}');
     registerFunction(
-      'spotlight-remove',
+      'spotlight/remove',
       '/spotlight/{spotType}/{categoryId}/{campaignId}',
       HttpMethod.DELETE,
       'w'
@@ -89,7 +89,7 @@ function createFunction(
   apiMethod: HttpMethod = HttpMethod.GET,
   dbPermission = 'r'
 ) {
-  const fn = new NodejsFunction(stack, `${name}-fn`, {
+  const fn = new NodejsFunction(stack, `${name.replace('/', '-')}-fn`, {
     entry: `${__dirname}/../src/lambda/${name}.ts`,
     logRetention: RetentionDays.ONE_WEEK,
   });
