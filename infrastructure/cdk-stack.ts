@@ -19,22 +19,13 @@ export class MidoweBackendStack extends Stack {
     const registerFunction = (
       name: string,
       apiPath: string,
-      apiMethod: HttpMethod = HttpMethod.GET,
-      dbPermission = 'r'
+      apiMethod: HttpMethod = HttpMethod.GET
     ) => {
-      createFunction(
-        this,
-        table,
-        httpApi,
-        name,
-        apiPath,
-        apiMethod,
-        dbPermission
-      );
+      createFunction(this, table, httpApi, name, apiPath, apiMethod);
     };
 
     // Campaigns
-    registerFunction('campaign/create', '/campaigns', HttpMethod.POST, 'w');
+    registerFunction('campaign/create', '/campaigns', HttpMethod.POST);
     registerFunction('campaign/get-by-category', '/campaigns/{categoryId}');
     registerFunction(
       'campaign/get-by-id',
@@ -42,7 +33,7 @@ export class MidoweBackendStack extends Stack {
     );
 
     // Categories
-    registerFunction('category/create', '/categories', HttpMethod.POST, 'w');
+    registerFunction('category/create', '/categories', HttpMethod.POST);
     registerFunction('category/get-all', '/categories');
     registerFunction('category/get-by-id', '/categories/{id}');
 
@@ -50,15 +41,13 @@ export class MidoweBackendStack extends Stack {
     registerFunction(
       'spotlight/create',
       '/spotlight/{spotType}/{categoryId}/{campaignId}',
-      HttpMethod.POST,
-      'w'
+      HttpMethod.POST
     );
     registerFunction('spotlight/get-by-type', '/spotlight/{spotType}');
     registerFunction(
       'spotlight/remove',
       '/spotlight/{spotType}/{categoryId}/{campaignId}',
-      HttpMethod.DELETE,
-      'w'
+      HttpMethod.DELETE
     );
 
     new CfnOutput(this, 'HttpApiUrl', { value: httpApi.apiEndpoint });
@@ -69,7 +58,7 @@ function createBaseTable(stack: Stack) {
   return new Table(stack, 'MidoweTable', {
     billingMode: BillingMode.PAY_PER_REQUEST,
     partitionKey: { name: 'pk', type: AttributeType.STRING },
-    removalPolicy: RemovalPolicy.DESTROY,
+    removalPolicy: RemovalPolicy.RETAIN,
     sortKey: { name: 'sk', type: AttributeType.STRING },
     tableName: 'MidoweTable',
   });
@@ -91,24 +80,21 @@ function createFunction(
   httpApi: HttpApi,
   name: string,
   apiPath: string,
-  apiMethod: HttpMethod = HttpMethod.GET,
-  dbPermission = 'r'
+  apiMethod: HttpMethod = HttpMethod.GET
 ) {
   const fn = new NodejsFunction(stack, `${name.replace('/', '-')}-fn`, {
     entry: `${__dirname}/../src/lambda/${name}.ts`,
     logRetention: RetentionDays.ONE_WEEK,
   });
 
-  switch (dbPermission) {
-    case 'r':
-      table.grantReadData(fn);
-      break;
-    case 'w':
-      table.grantWriteData(fn);
-      break;
-    case 'rw':
-      table.grantReadWriteData(fn);
-      break;
+  if (
+    apiMethod === HttpMethod.POST ||
+    apiMethod === HttpMethod.PUT ||
+    apiMethod === HttpMethod.DELETE
+  ) {
+    table.grantReadWriteData(fn);
+  } else {
+    table.grantReadData(fn);
   }
 
   const fnApiIntegration = new HttpLambdaIntegration(`${name}-integration`, fn);
