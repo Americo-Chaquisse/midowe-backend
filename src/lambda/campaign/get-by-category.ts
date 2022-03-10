@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { Message } from '../helper/message';
-import { getCampaignsByCategory } from '../service/campaign-service';
+import { Message } from '../../helper/message';
+import { getCampaignsByCategory } from '../../service/campaign-service';
 
 export const handler = async (
   event: Partial<APIGatewayProxyEvent>

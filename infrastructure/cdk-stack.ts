@@ -33,18 +33,27 @@ export class MidoweBackendStack extends Stack {
       );
     };
 
+    // Campaigns
+    registerFunction('campaign-create', '/campaigns', HttpMethod.POST, 'w');
+    registerFunction('campaign-get-by-category', '/campaigns/{categoryId}');
+    registerFunction(
+      'campaign-get-by-id',
+      '/campaigns/{categoryId}/{campaignId}'
+    );
+
     // Categories
     registerFunction('category-create', '/categories', HttpMethod.POST, 'w');
     registerFunction('category-get-all', '/categories');
     registerFunction('category-get-by-id', '/categories/{id}');
 
-    // Campaigns
-    registerFunction('campaign-get-featured', '/campaigns/featured');
-    registerFunction('campaign-get-trending', '/campaigns/trending');
-    registerFunction('campaign-get-by-category', '/campaigns/{categoryId}');
+    // Spotlight
+    registerFunction('spotlight-create', '/spotlight', HttpMethod.POST, 'w');
+    registerFunction('spotlight-get-featured', '/spotlight/{spotType}');
     registerFunction(
-      'campaign-get-by-id',
-      '/campaigns/{categoryId}/{campaignId}'
+      'spotlight-remove',
+      '/spotlight/{spotType}/{categoryId}/{campaignId}',
+      HttpMethod.DELETE,
+      'w'
     );
 
     new CfnOutput(this, 'HttpApiUrl', { value: httpApi.apiEndpoint });

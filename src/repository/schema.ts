@@ -49,13 +49,14 @@ const schema = {
         type: String,
         value: '${campaignId}',
       },
+      categoryId: {
+        type: String,
+        required: true,
+      },
       campaignId: {
         type: String,
         generate: 'ulid',
         validate: /^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$/i,
-      },
-      categoryId: {
-        type: String,
         required: true,
       },
       userId: {
@@ -66,6 +67,9 @@ const schema = {
       title: {
         type: String,
         required: true,
+      },
+      userData: {
+        type: Object,
       },
       description: {
         type: String,

@@ -1,6 +1,7 @@
+import { SpotType } from './../../helper/types';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { Message } from '../helper/message';
-import { getCampaignById } from '../service/campaign-service';
+import { Message } from '../../helper/message';
+import { removeSpotlightCampaign } from '../../service/spotlight-service';
 
 export const handler = async (
   event: Partial<APIGatewayProxyEvent>
@@ -8,20 +9,23 @@ export const handler = async (
   if (event.pathParameters == undefined) {
     return Message.error('UNDEFINED_PATH_PARAMETERS');
   }
+  if (event.pathParameters.spotType == undefined) {
+    return Message.error('UNDEFINED_PATH_PARAMETER_SPOT_TYPE');
+  }
   if (event.pathParameters.categoryId == undefined) {
     return Message.error('UNDEFINED_PATH_PARAMETER_CATEGORY_ID');
   }
-
   if (event.pathParameters.campaignId == undefined) {
     return Message.error('UNDEFINED_PATH_PARAMETER_CAMPAIGN_ID');
   }
 
   try {
-    const campaign = await getCampaignById(
+    await removeSpotlightCampaign(
+      event.pathParameters.spotType as SpotType,
       event.pathParameters.categoryId,
       event.pathParameters.campaignId
     );
-    return Message.success(campaign);
+    return Message.success({});
   } catch (err) {
     return Message.error(err);
   }

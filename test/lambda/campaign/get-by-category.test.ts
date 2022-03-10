@@ -1,5 +1,5 @@
-import { handler } from '../../src/lambda/campaign-get-by-category';
-import { createCampaign } from '../../src/service/campaign-service';
+import { handler } from '../../../src/lambda/campaign/get-by-category';
+import { createCampaign } from '../../../src/service/campaign-service';
 
 describe('Get campaigns by category', () => {
   it('should return campaigns of specific category', async () => {
@@ -7,6 +7,11 @@ describe('Get campaigns by category', () => {
       await createCampaign(
         'caridade',
         'achaquisse1@gmail.com',
+        {
+          fullName: 'Américo Tinga Chaquisse',
+          pictureUrl:
+            'https://i1.sndcdn.com/avatars-eihxIuzFW0OqgZjj-yVE8uQ-t240x240.jpg',
+        },
         'Construcao de uma escola ' + item,
         'Long description',
         'http://localhost/main.png',

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { MidoweBackendStack } from '../lib/midowe-backend-stack';
+import { MidoweBackendStack } from './cdk-stack';
 
 const app = new cdk.App();
 new MidoweBackendStack(app, 'MidoweBackendStack', {

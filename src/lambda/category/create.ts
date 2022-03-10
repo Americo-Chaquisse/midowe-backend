@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { Message } from '../helper/message';
-import { createCategory } from '../service/category-service';
+import { Message } from '../../helper/message';
+import { createCategory } from '../../service/category-service';
 
 export const handler = async (
   event: Partial<APIGatewayProxyEvent>

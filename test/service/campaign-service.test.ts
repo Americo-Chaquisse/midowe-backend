@@ -2,15 +2,18 @@ import {
   createCampaign,
   getCampaignById,
   getCampaignsByCategory,
-  getSpotlightCampaigns,
 } from '../../src/service/campaign-service';
-import { Spotlight } from '../../src/repository/schema';
 
 describe('Test campaign service', () => {
   it('should create a campaign', async () => {
     const newCampaign = await createCampaign(
       'educacao',
       'achaquisse1@gmail.com',
+      {
+        fullName: 'Américo Tinga Chaquisse',
+        pictureUrl:
+          'https://i1.sndcdn.com/avatars-eihxIuzFW0OqgZjj-yVE8uQ-t240x240.jpg',
+      },
       'Construcao de uma escola',
       'Long description',
       'http://localhost/main.png',
@@ -28,6 +31,11 @@ describe('Test campaign service', () => {
     const newCampaign = await createCampaign(
       'educacao',
       'achaquisse1@gmail.com',
+      {
+        fullName: 'Américo Tinga Chaquisse',
+        pictureUrl:
+          'https://i1.sndcdn.com/avatars-eihxIuzFW0OqgZjj-yVE8uQ-t240x240.jpg',
+      },
       'Construcao de uma escola 0',
       'Long description',
       'http://localhost/main.png',
@@ -52,6 +60,11 @@ describe('Test campaign service', () => {
       await createCampaign(
         'nascimento',
         'achaquisse1@gmail.com',
+        {
+          fullName: 'Américo Tinga Chaquisse',
+          pictureUrl:
+            'https://i1.sndcdn.com/avatars-eihxIuzFW0OqgZjj-yVE8uQ-t240x240.jpg',
+        },
         'Construcao de uma escola ' + item,
         'Long description',
         'http://localhost/main.png',
@@ -69,39 +82,5 @@ describe('Test campaign service', () => {
       page1[page1.length - 1].campaignId
     );
     expect(page2.length).toBe(4);
-  });
-
-  it('should get spotlight campaigns', async () => {
-    for (const item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
-      const created = await createCampaign(
-        'nascimento',
-        'achaquisse1@gmail.com',
-        'Construcao de uma escola ' + item,
-        'Long description',
-        'http://localhost/main.png',
-        [],
-        50000,
-        '2022-10-01'
-      );
-      if (item < 4) {
-        await Spotlight.create({
-          spotType: 'featured',
-          categoryId: created.categoryId,
-          campaignId: created.campaignId,
-        });
-      } else {
-        await Spotlight.create({
-          spotType: 'trending',
-          categoryId: created.categoryId,
-          campaignId: created.campaignId,
-        });
-      }
-    }
-
-    const featured = await getSpotlightCampaigns('featured');
-    expect(featured.length).toBe(3);
-
-    const trending = await getSpotlightCampaigns('trending');
-    expect(trending.length).toBe(7);
   });
 });

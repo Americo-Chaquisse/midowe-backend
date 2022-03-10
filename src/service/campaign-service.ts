@@ -1,13 +1,10 @@
-import {
-  Campaigns,
-  CampaignType,
-  Spotlight,
-  SpotlightType,
-} from '../repository/schema';
+import { UserDataType } from './../helper/types';
+import { Campaigns, CampaignType } from '../repository/schema';
 
 async function createCampaign(
   categoryId: string,
   userId: string,
+  userData: UserDataType,
   title: string,
   description: string,
   profileImage: string,
@@ -19,6 +16,7 @@ async function createCampaign(
     categoryId,
     userId,
     title,
+    userData,
     description,
     profileImage,
     additionalImages,
@@ -36,16 +34,16 @@ async function getCampaignById(
   categoryId: string,
   campaignId: string
 ): Promise<CampaignType> {
-  const category = await Campaigns.get({
+  const campaign = await Campaigns.get({
     pk: `category:${categoryId}`,
     sk: campaignId,
   });
-  if (category == undefined) {
+  if (campaign == undefined) {
     throw new Error(
       `Not found campaign. categoryId: ${categoryId}, campaignId: ${campaignId}`
     );
   }
-  return category;
+  return campaign;
 }
 
 async function getCampaignsByCategory(
@@ -66,31 +64,4 @@ async function getCampaignsByCategory(
   );
 }
 
-type SpotlightCategory = 'featured' | 'trending';
-
-async function getSpotlightCampaigns(
-  category: SpotlightCategory
-): Promise<CampaignType[]> {
-  const spotlights: SpotlightType[] = await Spotlight.find({
-    pk: 'spotlight',
-    sk: { begins_with: category },
-  });
-  const campaigns: CampaignType[] = [];
-
-  for (const spotlight of spotlights) {
-    const campaign = await getCampaignById(
-      spotlight.categoryId,
-      spotlight.campaignId
-    );
-    campaigns.push(campaign);
-  }
-  return campaigns;
-}
-
-export {
-  createCampaign,
-  getCampaignById,
-  getCampaignsByCategory,
-  SpotlightCategory,
-  getSpotlightCampaigns,
-};
+export { createCampaign, getCampaignById, getCampaignsByCategory };

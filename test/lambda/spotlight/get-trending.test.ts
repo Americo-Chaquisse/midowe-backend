@@ -1,12 +1,17 @@
-import { handler } from '../../src/lambda/campaign-get-trending';
-import { Spotlight } from '../../src/repository/schema';
-import { createCampaign } from '../../src/service/campaign-service';
+import { handler } from '../../../src/lambda/spotlight/get-trending';
+import { Spotlight } from '../../../src/repository/schema';
+import { createCampaign } from '../../../src/service/campaign-service';
 
 describe('Get featured campaigns', () => {
   it('should return all featured featured campaigns', async () => {
     const created = await createCampaign(
       'poesia',
       'achaquisse1@gmail.com',
+      {
+        fullName: 'Américo Tinga Chaquisse',
+        pictureUrl:
+          'https://i1.sndcdn.com/avatars-eihxIuzFW0OqgZjj-yVE8uQ-t240x240.jpg',
+      },
       'Construcao de uma escola',
       'Long description',
       'http://localhost/main.png',

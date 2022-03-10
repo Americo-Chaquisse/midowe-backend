@@ -1,6 +1,6 @@
 import { APIGatewayProxyResult } from 'aws-lambda';
-import { Message } from '../helper/message';
-import { getAllCategories } from '../service/category-service';
+import { Message } from '../../helper/message';
+import { getAllCategories } from '../../service/category-service';
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
   try {

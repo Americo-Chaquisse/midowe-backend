@@ -1,4 +1,4 @@
-import { handler } from '../../src/lambda/category-get-by-id';
+import { handler } from '../../../src/lambda/category/get-by-id';
 
 describe('Get category by id', () => {
   it('Should return one category', async () => {

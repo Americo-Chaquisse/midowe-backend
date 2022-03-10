@@ -1,4 +1,4 @@
-import { handler } from '../../src/lambda/category-get-all';
+import { handler } from '../../../src/lambda/category/get-all';
 
 describe('Get all categories', () => {
   it('Should return all categories', async () => {
