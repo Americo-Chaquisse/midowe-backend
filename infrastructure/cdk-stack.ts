@@ -47,7 +47,12 @@ export class MidoweBackendStack extends Stack {
     registerFunction('category/get-by-id', '/categories/{id}');
 
     // Spotlight
-    registerFunction('spotlight/create', '/spotlight', HttpMethod.POST, 'w');
+    registerFunction(
+      'spotlight/create',
+      '/spotlight/{spotType}/{categoryId}/{campaignId}',
+      HttpMethod.POST,
+      'w'
+    );
     registerFunction('spotlight/get-by-type', '/spotlight/{spotType}');
     registerFunction(
       'spotlight/remove',
