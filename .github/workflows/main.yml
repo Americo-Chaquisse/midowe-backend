@@ -57,6 +57,11 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          MPESA_API_HOST: ${{ secrets.MPESA_API_HOST }}
+          MPESA_API_KEY: ${{ secrets.MPESA_API_KEY }}
+          MPESA_ORIGIN: ${{ secrets.MPESA_ORIGIN }}
+          MPESA_PUBLIC_KEY: ${{ secrets.MPESA_PUBLIC_KEY }}
+          MPESA_SERVICE_CODE: ${{ secrets.MPESA_SERVICE_CODE }}
 
       - name: CDK deploy
         run: yarn deploy --require-approval never
@@ -64,3 +69,8 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          MPESA_API_HOST: ${{ secrets.MPESA_API_HOST }}
+          MPESA_API_KEY: ${{ secrets.MPESA_API_KEY }}
+          MPESA_ORIGIN: ${{ secrets.MPESA_ORIGIN }}
+          MPESA_PUBLIC_KEY: ${{ secrets.MPESA_PUBLIC_KEY }}
+          MPESA_SERVICE_CODE: ${{ secrets.MPESA_SERVICE_CODE }}
