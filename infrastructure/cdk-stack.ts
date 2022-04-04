@@ -1,4 +1,10 @@
-import { CfnOutput, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
+import {
+  CfnOutput,
+  Duration,
+  RemovalPolicy,
+  Stack,
+  StackProps,
+} from 'aws-cdk-lib';
 import { AttributeType, BillingMode, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
@@ -22,7 +28,8 @@ export class MidoweBackendStack extends Stack {
       apiMethod: HttpMethod = HttpMethod.GET,
       environment: {
         [key: string]: string;
-      } = {}
+      } = {},
+      timeout: Duration | undefined = undefined
     ) => {
       createFunction(
         this,
@@ -31,7 +38,8 @@ export class MidoweBackendStack extends Stack {
         name,
         apiPath,
         apiMethod,
-        environment
+        environment,
+        timeout
       );
     };
 
@@ -49,15 +57,21 @@ export class MidoweBackendStack extends Stack {
     registerFunction('category/get-by-id', '/categories/{id}');
 
     // Donation
-    registerFunction('donation/create', '/donations', HttpMethod.POST, {
-      MPESA_PUBLIC_KEY: process.env.MPESA_PUBLIC_KEY ?? '',
-      MPESA_API_KEY: process.env.MPESA_API_KEY ?? '',
-      MPESA_API_HOST: process.env.MPESA_API_HOST ?? '',
-      MPESA_ORIGIN: process.env.MPESA_ORIGIN ?? '',
-      MPESA_SERVICE_PROVIDER_CODE: process.env.MPESA_SERVICE_CODE ?? '',
-      MPESA_INITIATOR_IDENTIFIER: process.env.MPESA_SERVICE_CODE ?? '',
-      MPESA_SECURITY_CREDENTIALS: process.env.MPESA_SERVICE_CODE ?? '',
-    });
+    registerFunction(
+      'donation/create',
+      '/donations',
+      HttpMethod.POST,
+      {
+        MPESA_PUBLIC_KEY: process.env.MPESA_PUBLIC_KEY ?? '',
+        MPESA_API_KEY: process.env.MPESA_API_KEY ?? '',
+        MPESA_API_HOST: process.env.MPESA_API_HOST ?? '',
+        MPESA_ORIGIN: process.env.MPESA_ORIGIN ?? '',
+        MPESA_SERVICE_PROVIDER_CODE: process.env.MPESA_SERVICE_CODE ?? '',
+        MPESA_INITIATOR_IDENTIFIER: process.env.MPESA_SERVICE_CODE ?? '',
+        MPESA_SECURITY_CREDENTIALS: process.env.MPESA_SERVICE_CODE ?? '',
+      },
+      Duration.minutes(1)
+    );
     registerFunction('donation/get-by-campaign', '/donations/{campaignId}');
     registerFunction(
       'donation/get-by-id',
@@ -110,12 +124,14 @@ function createFunction(
   apiMethod: HttpMethod = HttpMethod.GET,
   environment: {
     [key: string]: string;
-  } = {}
+  } = {},
+  timeout: Duration | undefined = undefined
 ) {
   const fn = new NodejsFunction(stack, `${name.replace('/', '-')}-fn`, {
     entry: `${__dirname}/../src/lambda/${name}.ts`,
     logRetention: RetentionDays.ONE_WEEK,
     environment: environment,
+    timeout: timeout,
   });
 
   if (
