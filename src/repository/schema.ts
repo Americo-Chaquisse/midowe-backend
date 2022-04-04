@@ -2,11 +2,15 @@ import Dynamo from 'dynamodb-onetable/Dynamo';
 import { Entity, Table } from 'dynamodb-onetable';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
+export const dbClient = new DynamoDBClient({
+  region: process.env.AWS_REGION,
+  endpoint: process.env.MOCK_DYNAMODB_ENDPOINT || undefined,
+});
+
+export const TABLE_NAME = 'MidoweTable';
+
 const client = new Dynamo({
-  client: new DynamoDBClient({
-    region: process.env.AWS_REGION,
-    endpoint: process.env.MOCK_DYNAMODB_ENDPOINT || undefined,
-  }),
+  client: dbClient,
 });
 
 const schema = {
@@ -115,15 +119,15 @@ const schema = {
         type: String,
         required: true,
       },
+      categoryId: {
+        type: String,
+        required: true,
+      },
       transactionId: {
         type: String,
         required: true,
       },
       conversationId: {
-        type: String,
-        required: true,
-      },
-      thirdyPartyReference: {
         type: String,
         required: true,
       },
@@ -142,9 +146,6 @@ const schema = {
         type: String,
       },
       userEmail: {
-        type: String,
-      },
-      message: {
         type: String,
       },
     },
@@ -178,9 +179,9 @@ const schema = {
   version: '0.1.0',
 } as const;
 
-const table = new Table({
+export const table = new Table({
   client,
-  name: 'MidoweTable',
+  name: TABLE_NAME,
   schema,
   timestamps: true,
 });

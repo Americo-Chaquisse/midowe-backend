@@ -1,7 +1,9 @@
-import { SpotType } from './../../helper/types';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { Message } from '../../helper/message';
-import { getSpotlightCampaigns } from '../../service/spotlight-service';
+import {
+  getSpotlightCampaigns,
+  SpotType,
+} from '../../service/spotlight-service';
 
 export const handler = async (
   event: Partial<APIGatewayProxyEvent>

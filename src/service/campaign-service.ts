@@ -1,17 +1,29 @@
 import { UserDataType } from './../helper/types';
 import { Campaigns, CampaignType } from '../repository/schema';
 
-async function createCampaign(
-  categoryId: string,
-  userId: string,
-  userData: UserDataType,
-  title: string,
-  description: string,
-  profileImage: string,
-  additionalImages: [],
-  targetAmount: number,
-  targetDate: string
-): Promise<CampaignType> {
+type CreateCampaignParams = {
+  categoryId: string;
+  userId: string;
+  userData: UserDataType;
+  title: string;
+  description: string;
+  profileImage: string;
+  additionalImages: [];
+  targetAmount: number;
+  targetDate: string;
+};
+
+async function createCampaign({
+  categoryId,
+  userId,
+  userData,
+  title,
+  description,
+  profileImage,
+  additionalImages,
+  targetAmount,
+  targetDate,
+}: CreateCampaignParams): Promise<CampaignType> {
   return await Campaigns.create({
     categoryId,
     userId,
@@ -64,4 +76,9 @@ async function getCampaignsByCategory(
   );
 }
 
-export { createCampaign, getCampaignById, getCampaignsByCategory };
+export {
+  CreateCampaignParams,
+  createCampaign,
+  getCampaignById,
+  getCampaignsByCategory,
+};

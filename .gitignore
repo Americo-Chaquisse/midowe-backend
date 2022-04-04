@@ -14,3 +14,5 @@ output.json
 .idea
 *.iml
 .vscode
+
+.env

@@ -1,16 +1,19 @@
 import {
   createCategory,
+  CreateCategoryParams,
   getAllCategories,
   getCategoryById,
 } from '../../src/service/category-service';
 
 describe('Test category service', () => {
   it('should create a category', async () => {
-    const newCategory = await createCategory(
-      'newId',
-      'New Category',
-      'Short description'
-    );
+    const categoryParams: CreateCategoryParams = {
+      id: 'newId',
+      name: 'New Category',
+      description: 'Short description',
+    };
+
+    const newCategory = await createCategory(categoryParams);
     expect(newCategory).toBeTruthy();
     expect(newCategory.id).toBe('newId');
   });

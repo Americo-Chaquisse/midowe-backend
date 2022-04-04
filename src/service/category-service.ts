@@ -1,10 +1,16 @@
 import { Categories, CategoryType } from '../repository/schema';
 
-async function createCategory(
-  id: string,
-  name: string,
-  description: string
-): Promise<CategoryType> {
+type CreateCategoryParams = {
+  id: string;
+  name: string;
+  description: string;
+};
+
+async function createCategory({
+  id,
+  name,
+  description,
+}: CreateCategoryParams): Promise<CategoryType> {
   return await Categories.create({
     id,
     name,
@@ -24,4 +30,9 @@ async function getCategoryById(id: string): Promise<CategoryType> {
   return category;
 }
 
-export { createCategory, getAllCategories, getCategoryById };
+export {
+  CreateCategoryParams,
+  createCategory,
+  getAllCategories,
+  getCategoryById,
+};

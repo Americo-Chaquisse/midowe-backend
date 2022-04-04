@@ -1,5 +1,8 @@
 import { Spotlight } from './../../src/repository/schema';
-import { createCampaign } from '../../src/service/campaign-service';
+import {
+  createCampaign,
+  CreateCampaignParams,
+} from '../../src/service/campaign-service';
 import {
   createSpotlightCampaign,
   getSpotlightCampaigns,
@@ -9,21 +12,23 @@ import {
 describe('Test spotlight service', () => {
   it('should create a spotlight campaign', async () => {
     const total = (await Spotlight.scan()).count;
-    const created = await createCampaign(
-      'nascimento',
-      'achaquisse1@gmail.com',
-      {
+    const params: CreateCampaignParams = {
+      categoryId: 'nascimento',
+      userId: 'achaquisse1@gmail.com',
+      userData: {
         fullName: 'Américo Tinga Chaquisse',
         pictureUrl:
           'https://i1.sndcdn.com/avatars-eihxIuzFW0OqgZjj-yVE8uQ-t240x240.jpg',
       },
-      'Construcao de uma escola 222',
-      'Long description',
-      'http://localhost/main.png',
-      [],
-      50000,
-      '2022-10-01'
-    );
+      title: 'Construcao de uma escola',
+      description: 'Long description',
+      profileImage: 'http://localhost/main.png',
+      additionalImages: [],
+      targetAmount: 50000,
+      targetDate: '2022-10-01',
+    };
+    const created = await createCampaign(params);
+
     await createSpotlightCampaign(
       'featured',
       created.categoryId,
@@ -41,21 +46,23 @@ describe('Test spotlight service', () => {
 
   it('should remove a spotlight campaign', async () => {
     const items1 = await Spotlight.find({ pk: 'spotlight' });
-    const created = await createCampaign(
-      'nascimento',
-      'achaquisse1@gmail.com',
-      {
+    const params: CreateCampaignParams = {
+      categoryId: 'nascimento',
+      userId: 'achaquisse1@gmail.com',
+      userData: {
         fullName: 'Américo Tinga Chaquisse',
         pictureUrl:
           'https://i1.sndcdn.com/avatars-eihxIuzFW0OqgZjj-yVE8uQ-t240x240.jpg',
       },
-      'Construcao de uma escola 222',
-      'Long description',
-      'http://localhost/main.png',
-      [],
-      50000,
-      '2022-10-01'
-    );
+      title: 'Construcao de uma escola',
+      description: 'Long description',
+      profileImage: 'http://localhost/main.png',
+      additionalImages: [],
+      targetAmount: 50000,
+      targetDate: '2022-10-01',
+    };
+    const created = await createCampaign(params);
+
     await createSpotlightCampaign(
       'featured',
       created.categoryId,
@@ -77,21 +84,23 @@ describe('Test spotlight service', () => {
 
   it('should get spotlight campaigns', async () => {
     for (const item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
-      const created = await createCampaign(
-        'nascimento',
-        'achaquisse1@gmail.com',
-        {
+      const params: CreateCampaignParams = {
+        categoryId: 'nascimento',
+        userId: 'achaquisse1@gmail.com',
+        userData: {
           fullName: 'Américo Tinga Chaquisse',
           pictureUrl:
             'https://i1.sndcdn.com/avatars-eihxIuzFW0OqgZjj-yVE8uQ-t240x240.jpg',
         },
-        'Construcao de uma escola ' + item,
-        'Long description',
-        'http://localhost/main.png',
-        [],
-        50000,
-        '2022-10-01'
-      );
+        title: 'Construcao de uma escola',
+        description: 'Long description',
+        profileImage: 'http://localhost/main.png',
+        additionalImages: [],
+        targetAmount: 50000,
+        targetDate: '2022-10-01',
+      };
+      const created = await createCampaign(params);
+
       if (item < 4) {
         await createSpotlightCampaign(
           'featured',

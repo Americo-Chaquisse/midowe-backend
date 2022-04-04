@@ -4,21 +4,21 @@ import { createCampaign } from '../../../src/service/campaign-service';
 
 describe('Get featured campaigns', () => {
   it('should return all featured campaigns', async () => {
-    const created = await createCampaign(
-      'arte',
-      'achaquisse1@gmail.com',
-      {
+    const created = await createCampaign({
+      categoryId: 'arte',
+      userId: 'achaquisse1@gmail.com',
+      userData: {
         fullName: 'Américo Tinga Chaquisse',
         pictureUrl:
           'https://i1.sndcdn.com/avatars-eihxIuzFW0OqgZjj-yVE8uQ-t240x240.jpg',
       },
-      'Construcao de uma escola',
-      'Long description',
-      'http://localhost/main.png',
-      [],
-      50000,
-      '2022-10-01'
-    );
+      title: 'Construcao de uma escola',
+      description: 'Long description',
+      profileImage: 'http://localhost/main.png',
+      additionalImages: [],
+      targetAmount: 50000,
+      targetDate: '2022-10-01',
+    });
     await Spotlight.create({
       spotType: 'featured',
       categoryId: created.categoryId,
@@ -34,21 +34,21 @@ describe('Get featured campaigns', () => {
   });
 
   it('should return all trending campaigns', async () => {
-    const created = await createCampaign(
-      'poesia',
-      'achaquisse1@gmail.com',
-      {
+    const created = await createCampaign({
+      categoryId: 'poesia',
+      userId: 'achaquisse1@gmail.com',
+      userData: {
         fullName: 'Américo Tinga Chaquisse',
         pictureUrl:
           'https://i1.sndcdn.com/avatars-eihxIuzFW0OqgZjj-yVE8uQ-t240x240.jpg',
       },
-      'Construcao de uma escola',
-      'Long description',
-      'http://localhost/main.png',
-      [],
-      50000,
-      '2022-10-01'
-    );
+      title: 'Construcao de uma escola',
+      description: 'Long description',
+      profileImage: 'http://localhost/main.png',
+      additionalImages: [],
+      targetAmount: 50000,
+      targetDate: '2022-10-01',
+    });
     await Spotlight.create({
       spotType: 'trending',
       categoryId: created.categoryId,

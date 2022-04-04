@@ -4,21 +4,21 @@ import { createCampaign } from '../../../src/service/campaign-service';
 describe('Get campaigns by category', () => {
   it('should return campaigns of specific category', async () => {
     for (const item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
-      await createCampaign(
-        'caridade',
-        'achaquisse1@gmail.com',
-        {
+      await createCampaign({
+        categoryId: 'caridade',
+        userId: 'achaquisse1@gmail.com',
+        userData: {
           fullName: 'Américo Tinga Chaquisse',
           pictureUrl:
             'https://i1.sndcdn.com/avatars-eihxIuzFW0OqgZjj-yVE8uQ-t240x240.jpg',
         },
-        'Construcao de uma escola ' + item,
-        'Long description',
-        'http://localhost/main.png',
-        [],
-        50000,
-        '2022-10-01'
-      );
+        title: 'Construcao de uma escola ' + item,
+        description: 'Long description',
+        profileImage: 'http://localhost/main.png',
+        additionalImages: [],
+        targetAmount: 50000,
+        targetDate: '2022-10-01',
+      });
     }
 
     const response1 = await handler({

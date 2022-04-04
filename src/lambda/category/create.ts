@@ -10,13 +10,9 @@ export const handler = async (
   }
 
   try {
-    const requestBody = JSON.parse(event.body);
+    const { id, name, description } = JSON.parse(event.body);
+    const category = await createCategory({ id, name, description });
 
-    const category = await createCategory(
-      requestBody.id,
-      requestBody.name,
-      requestBody.description
-    );
     return Message.success(category);
   } catch (err) {
     return Message.error(err);

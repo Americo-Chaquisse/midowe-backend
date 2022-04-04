@@ -1,6 +1,7 @@
-import { SpotType } from '../helper/types';
 import { CampaignType, Spotlight, SpotlightType } from '../repository/schema';
 import { getCampaignById } from './campaign-service';
+
+type SpotType = 'featured' | 'trending';
 
 async function createSpotlightCampaign(
   spotType: SpotType,
@@ -46,6 +47,7 @@ async function getSpotlightCampaigns(
 }
 
 export {
+  SpotType,
   createSpotlightCampaign,
   removeSpotlightCampaign,
   getSpotlightCampaigns,
