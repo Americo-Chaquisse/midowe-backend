@@ -19,9 +19,20 @@ export class MidoweBackendStack extends Stack {
     const registerFunction = (
       name: string,
       apiPath: string,
-      apiMethod: HttpMethod = HttpMethod.GET
+      apiMethod: HttpMethod = HttpMethod.GET,
+      environment: {
+        [key: string]: string;
+      } = {}
     ) => {
-      createFunction(this, table, httpApi, name, apiPath, apiMethod);
+      createFunction(
+        this,
+        table,
+        httpApi,
+        name,
+        apiPath,
+        apiMethod,
+        environment
+      );
     };
 
     // Campaigns
@@ -36,6 +47,22 @@ export class MidoweBackendStack extends Stack {
     registerFunction('category/create', '/categories', HttpMethod.POST);
     registerFunction('category/get-all', '/categories');
     registerFunction('category/get-by-id', '/categories/{id}');
+
+    // Donation
+    registerFunction('donation/create', '/donations', HttpMethod.POST, {
+      MPESA_PUBLIC_KEY: process.env.MPESA_PUBLIC_KEY ?? '',
+      MPESA_API_KEY: process.env.MPESA_API_KEY ?? '',
+      MPESA_API_HOST: process.env.MPESA_API_HOST ?? '',
+      MPESA_ORIGIN: process.env.MPESA_ORIGIN ?? '',
+      MPESA_SERVICE_PROVIDER_CODE: process.env.MPESA_SERVICE_CODE ?? '',
+      MPESA_INITIATOR_IDENTIFIER: process.env.MPESA_SERVICE_CODE ?? '',
+      MPESA_SECURITY_CREDENTIALS: process.env.MPESA_SERVICE_CODE ?? '',
+    });
+    registerFunction('donation/get-by-campaign', '/donations/{campaignId}');
+    registerFunction(
+      'donation/get-by-id',
+      '/donations/{campaignId}/{transactionId}'
+    );
 
     // Spotlight
     registerFunction(
@@ -80,11 +107,15 @@ function createFunction(
   httpApi: HttpApi,
   name: string,
   apiPath: string,
-  apiMethod: HttpMethod = HttpMethod.GET
+  apiMethod: HttpMethod = HttpMethod.GET,
+  environment: {
+    [key: string]: string;
+  } = {}
 ) {
   const fn = new NodejsFunction(stack, `${name.replace('/', '-')}-fn`, {
     entry: `${__dirname}/../src/lambda/${name}.ts`,
     logRetention: RetentionDays.ONE_WEEK,
+    environment: environment,
   });
 
   if (
